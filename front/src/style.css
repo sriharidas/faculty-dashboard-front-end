@@ -4,7 +4,17 @@
   margin: 0;
   box-sizing: border-box;
 }
-
+::-webkit-scrollbar {
+  width: 7px;
+  background: transparent;
+}
+::-webkit-scrollbar-track {
+  background: #fff;
+}
+::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 20%;
+}
 html,
 body {
   font-family: Roboto, sans-serif;
@@ -64,7 +74,7 @@ body {
   margin-top: 20px;
   font-size: 1.1rem;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: flex-start;
   flex-wrap: wrap;
   text-align: left;
@@ -75,19 +85,22 @@ body {
   display: flex;
   flex-direction: column;
   padding: 10px;
-  position: relative;
   margin: 10px 0;
 }
-
+.search-input-groups label {
+  font-weight: 500;
+  letter-spacing: 1.25px;
+}
 .search-input-groups label,
-.search-input-groups input {
+.search-input-groups input,
+.search-input-groups select {
   margin: 7px 0;
 }
-
 .search-input-groups input {
   outline: none;
 }
-.search-input-groups input[type="text"] {
+.search-input-groups input,
+.search-input-groups select {
   padding: 5px;
 }
 .search-input-groups input[type="text"]:focus {
@@ -103,18 +116,141 @@ body {
   border-radius: 5px;
   transition: all 600ms;
 }
-
+.form-range-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  position: relative;
+}
+.form-range-container span {
+  font-size: 0.9rem;
+}
+.form-range-container span:first-child {
+  padding-right: 7px;
+}
+.form-range-container span:last-child {
+  padding-left: 7px;
+}
+.form-range-container input {
+  width: 85%;
+  /* flex: 1; */
+}
 .form-groups-range::-moz-range-thumb {
   background-color: #ccc;
 }
 
-.search-input-groups span {
+.search-input-groups span.form-groups-range-value {
   position: absolute;
-  bottom: -10px;
+  bottom: -20px;
 }
 .form-groups-range-min {
   left: 10px;
 }
 .form-groups-range-max {
   right: 10px;
+}
+
+.search-results-container {
+  width: 85%;
+  height: calc(100vh - 30px);
+  margin: 25px auto;
+}
+.search-results-container h2 {
+  padding-bottom: 10px;
+  border-bottom: 2px solid;
+  color: #4ca6ff;
+}
+.search-results {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 15px;
+}
+.search-results > div {
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+}
+.results-list-container {
+  /* background-color: rgb(59, 114, 185, 0.8); */
+  /* background-color: #4ca6ff; */
+  flex: 4;
+}
+.results-list-container ul {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-around; */
+  list-style: none;
+  margin: 0;
+  /* border: 2px solid #4ca6ff; */
+  overflow-y: hidden;
+  /* padding-top: 4px */
+}
+.results-list-page-nav {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: -10px;
+}
+.results-list-page-nav button {
+  background-color: transparent;
+  border: none;
+  padding: 5px 7px;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+.results-list-page-nav button:hover {
+  font-weight: 700;
+}
+.results-list-container ul li {
+  padding: 10px;
+  border-left: 2px solid #4ca6ff;
+  border-right: 2px solid #4ca6ff;
+  cursor: pointer;
+}
+.results-list-container ul li a {
+  color: inherit;
+  text-decoration: none;
+}
+.results-list-container ul li:nth-child(odd) {
+  background-color: #4ca6ff;
+  color: #fff;
+}
+.results-list-container ul li:nth-child(odd):hover {
+  background-color: rgb(25, 140, 255);
+}
+.results-list-container ul li:nth-child(even) {
+  color: #4ca6ff;
+  background-color: #fff;
+}
+.results-list-container ul li:nth-child(even):hover {
+  color: #4ca6ff;
+  background-color: #f2f2f2;
+}
+.results-data-container {
+  /* background-color: #66b2ff;
+  color: #fff; */
+  flex: 6;
+  margin: 0 20px;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  justify-content: space-around;
+  border-left: 2px solid #eee;
+
+  font-weight: 500;
+}
+.results-data-container p {
+  display: flex;
+}
+.results-data-title {
+  flex: 3;
+  text-transform: capitalize;
+}
+.results-data-value {
+  flex: 7;
 }
