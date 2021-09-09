@@ -1,62 +1,87 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 export default function Input(props) {
-  const id = props.label.split(" ").join("-").toLowerCase();
+  // const id = props.label.split(" ").join("_").toLowerCase();
+  let id = props.id;
   const [Value, setValue] = useState("");
+  const [datas, setdatas] = useState([]);
+  useEffect(() => {
+    // props.onChange(props.id, "");
+  }, []);
 
   const HandleInput = (e) => {
     setValue(e.target.value);
+    console.log(e.target.type);
+    let value =
+      e.target["type"] === "range" ? Number(e.target.value) : e.target.value;
+    props.onChange(e.target.id, value);
     if (props.type !== "range") {
       return;
     }
-    let min = props.min,
-      max = props.max,
-      sliderPosition;
-    const sliderValueElement = document.querySelector(
-      `#form-groups-range-value-${id}`
-    );
-    sliderPosition =
-      Math.abs(min) !== Math.abs(max)
-        ? (Value / Math.abs(max - min)) * 100
-        : 50 + (Value / (max - min)) * 100;
+    // let min = props.min,
+    //   max = props.max,
+    //   sliderPosition;
+    // const sliderValueElement = document.querySelector(
+    //   `#form-groups-range-value-${id}`
+    // );
+    // sliderPosition =
+    //   Math.abs(min) !== Math.abs(max)
+    //     ? (Value / Math.abs(max - min)) * 100
+    //     : 50 + (Value / (max - min)) * 100;
     // console.log(50 + (Value / (max - min)) * 100);
-    console.log(sliderPosition);
-    if (sliderPosition > 5 && sliderPosition < 95) {
-      sliderValueElement.style.display = "block";
+    // console.log(sliderPosition);
 
-      sliderValueElement.style.left = `calc(${sliderPosition}% - 10px)`;
-    } else {
-      sliderValueElement.style.display = "none";
-    }
+    // if (sliderPosition > 3 && sliderPosition < 97) {
+    //   sliderValueElement.style.display = "block";
+    //   // sliderValueElement.style.left = `calc(${sliderPosition}%  -10px)`;
+    // } else {
+    //   sliderValueElement.style.display = "none";
+    // }
   };
+
+  useEffect(() => {
+    if (Value === "") return;
+    const response = async () => {
+      const { data } = await axios.get(
+        `http://127.0.0.1:8000/api/faculty/lists/`
+      );
+      setdatas(data);
+      // JSON.stringify(data);
+      console.log(data);
+    };
+    // response();
+  }, [Value]);
+
   return (
     <div className="search-input-groups">
       <label htmlFor={id}>{props.label}</label>
-      <input
-        type={props.type}
-        placeholder={props.label}
-        name={id}
-        id={id}
-        onInput={HandleInput}
-        value={Value}
-        className={`form-groups-${props.type}`}
-        step={props.type === "range" ? props.step : ""}
-        min={props.min}
-        max={props.max}
-      />
+
       {props.type === "range" ? (
-        <>
+        <div className="form-range-container">
           <span
             className={`form-groups-range-min`}
             id={`form-groups-range-min-${id}`}
           >
             {props.min}
           </span>
+          <input
+            type={props.type}
+            placeholder={props.label}
+            name={id}
+            id={id}
+            onInput={HandleInput}
+            value={Value}
+            className={`form-groups-${props.type}`}
+            step={props.type === "range" ? props.step : ""}
+            min={props.min}
+            max={props.max}
+          />
           <span
             className={`form-groups-range-value`}
             id={`form-groups-range-value-${id}`}
           >
-            {Value}
+            {Value === "" ? (Number(props.min) + Number(props.max)) / 2 : Value}
           </span>
           <span
             className={`form-groups-range-max form-groups-range-max-${id}`}
@@ -64,9 +89,17 @@ export default function Input(props) {
           >
             {props.max}
           </span>
-        </>
+        </div>
       ) : (
-        ""
+        <input
+          type={props.type}
+          placeholder={props.label}
+          name={id}
+          id={id}
+          onInput={HandleInput}
+          value={Value}
+          className={`form-groups-${props.type}`}
+        />
       )}
     </div>
   );
