@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Input from "./Input";
 import ResultsList from "./Results/ResultsList";
-import ResultsPersonData from "./Results/ResultsPersonData";
+//import ResultsPersonData from "./Results/ResultsPersonData";
+import MultiRangeSlider from "./MultiRangeSlider";
 import Select from "./Select";
 export default function SearchContainer(props) {
   const [query, setQuery] = useState({});
@@ -73,15 +74,25 @@ export default function SearchContainer(props) {
       const response = await resp.json();
       setPersonData(response);
       setList(response);
+      
     };
     fetchData(url);
+    console.log(url)
   }, [query]);
+  
+  useEffect(()=>{
+    console.log(query)
+  }, [query])
+
   return (
     <>
       <div className="search-container">
         {facultyData.map((field) =>
           field["data-element"] === "input" ? (
-            <Input {...field} onChange={changeHandler} />
+           field['type'] === 'range' ?   <MultiRangeSlider
+           {...field}
+           onChange={changeHandler }
+         /> : <Input {...field} onChange={changeHandler} />
           ) : (
             // <Input label={field.label} type={field.type} />
             <Select {...field} onChange={changeHandler} />
@@ -95,19 +106,13 @@ export default function SearchContainer(props) {
           {/* checking whether the states have same length before rendering */}
           {PersonData.length === List.length || PersonData.length > 0 ? (
             <>
-            
               <ResultsList
                 list={List}
                 updateId={setSearchID}
                 updateIndex={setIndex}
                 Index={Index}
               />
-              {PersonData.length > 1 ? (
-                <ResultsPersonData data={PersonData[Index.start]} />
-              ) : (
-                PersonData[0] && <ResultsPersonData data={PersonData[0]} />
-                // <span>{JSON.stringify()}</span>
-              )}
+              
             </>
           ) : (
             <>
@@ -167,36 +172,36 @@ const facultyData = [
   {
     label: "FAP 2021 Score",
     type: "range",
-    min: "0",
-    max: "5",
-    step: "0.1",
+    min: 0,
+    max: 5,
+    step: 0.1,
     "data-element": "input",
     id: "FAP_2021_Score",
   },
   {
     label: "Feedback 2021 Score",
     type: "range",
-    min: "0",
-    max: "5",
-    step: "0.1",
+    min: 0,
+    max: 5,
+    step: 0.1,
     "data-element": "input",
     id: "Feedback_2021_Score",
   },
   {
     label: "FRD 2021",
     type: "range",
-    min: "0",
-    max: "5",
-    step: "0.1",
+    min: 0,
+    max: 5,
+    step: 0.1,
     "data-element": "input",
     id: "FRP_2021",
   },
   {
     label: "FRS 2021",
     type: "range",
-    min: "-500",
-    max: "500",
-    step: "10",
+    min: -500,
+    max: 500,
+    step: 10,
     "data-element": "input",
     id: "FRS_2021",
   },

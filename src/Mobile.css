@@ -1,0 +1,22 @@
+@media screen and (max-width:500px){
+    .navbar{display:block;}
+    .navbar-nav {
+        display: block;}
+        .navbar-nav li a {
+            display: block;}
+        .search-container{display:block;
+        width:100%;}
+        .search-input-groups {
+            display:flex;
+            flex-direction:column;
+        width:100%;}
+        .form-range-container{
+            display:block;
+        }
+        .display{display:block;}
+        .task{
+            grid-gap:3rem;
+        }
+        
+
+}
